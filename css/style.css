@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-size: 25px;
+}
+
+body {
+    background: linear-gradient(0deg, rgba(242, 12, 212, 0) 0%, rgba(0, 0, 0, 0.75) 100%), url(../media/dollhouse.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.box {
+    color: antiquewhite;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+}
+.box h1 {
+    background-color: black;
+    padding: 1em;
+    max-width: fit-content;
+    font-size: 2rem;
+}
