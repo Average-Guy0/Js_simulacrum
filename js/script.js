@@ -1,4 +1,5 @@
-// alert("Para que este programa funcione bien, tienes que presionar un número para elegir una opción. Por ejemplo si la prompt dice \n 1- opción 1 \n 2-opción 2 \n Para elegir opción 1 tienes que solo poner '1' en la prompt")
+// tutorial
+alert("Para que este programa funcione bien, tienes que presionar un número para elegir una opción. Por ejemplo si la prompt dice \n 1- opción 1 \n 2-opción 2 \n Para elegir opción 1 tienes que solo poner '1' en la prompt")
 
 // functions 
 function levantarse() {
@@ -17,12 +18,25 @@ function levantarse() {
     alert("'Bien hecho' dice mientras su atención está en escribir algo en una tabla negra que tiene en la mano")
 };
 
+// funcion para simular dados, son dos dados de 6 que funcionaran para decidir el resultado del usuario
 
+const dos_d6 = () => { return Math.ceil(Math.random() * 6) + Math.ceil(Math.random() * 6) }
+// esta funcion es la que permite determinar el exito o fracaso de los encuentros que el usuario encuentra, 
+// basicamente tira dos dados de 6 y le suma el bonus poder del usuario y resta la dificultad
+// >=10 exito
+// 7-9 pequeño exito
+// <=6 fracaso
+function roll(dificultad) {
+    return dos_d6() + user_doll.power - dificultad
+}
+
+// classe para contruir oponentes, no estoy seguro si le encontrare alguna utilidad
 class doll {
-    constructor(name, hit_points, damage) {
+    constructor(name, hit_points, damage, dificultad) {
         this.name = name
         this.hp = hit_points
         this.dmg = damage
+        this.dificultad = dificultad
     };
 };
 
@@ -57,11 +71,12 @@ function gender() {
 let raza_elegida = 0
 
 function race() {
-    let raza = parseInt(prompt("¿cual es tu raza? \n1-Human\n2-Elfos\n3-Orcos\n4-Hombres Bestia"))
+
+    let raza = parseInt(prompt("¿cual es tu raza? \n1-Humano - la unica raza que evoluciono en Gaia, y la que los dioses le permiten mayor libertad \n \n2-Elfos - Desde el principio los dioses han estado fancinados con los elfos, y fueron creados para ser la hermosa raza de hombres y mujeres que los dioses tenian en mente devido a esta atencion los elfos son una raza diseñada para entretener a los dioses  \n \n3-Orcos - los dioses al principio querian una raza para que sea enemigo del resto del mundo, afortunadamente se dieron cuenta rapidamente del terrible error que hicieron cuando tuvieron que saltar a defender a los orcos de la ira del resto del mundo, demostrando que crear una raza malvada desde el principio era una terrible idea\n \n4-Hombres Bestia - las tribus de hombres animales son varias pero todas unicas, los dioses los crearon por su facinacion a los animales, muchas tribus ya estan extintas, pero algunas se mantienen fuerte bajo la proteccion de los dioses que las protejen "))
 
     switch (raza) {
         case 1:
-            race_name = "humano",
+            race_name = "Humano",
                 race_hp = 10,
                 race_power = 2;
             raza_elegida += 1
@@ -69,7 +84,7 @@ function race() {
 
             return race_choice;
         case 2:
-            race_name = "elves"
+            race_name = "Elfo"
             race_hp = 5
             race_power = 1
             raza_elegida += 2
@@ -77,7 +92,7 @@ function race() {
 
             return race_choice;
         case 3:
-            race_name = "orcs"
+            race_name = "Orco"
             race_hp = 20
             race_power = 3
             raza_elegida += 3
@@ -85,7 +100,7 @@ function race() {
 
             return race_choice;
         case 4:
-            race_name = "beast man"
+            race_name = "Hombres bestia"
             race_hp = 15
             race_power = 2
             raza_elegida += 4
@@ -95,16 +110,16 @@ function race() {
 
 
         default:
-            alert("not a valid option")
+            alert("Elije la raza con un numero del 1 al 4")
             break;
     }
 
     while (raza != 1 && raza != 2 && raza != 3 && raza != 4) {
-        raza = parseInt(prompt("¿cual es tu raza? \n1-Human\n2-Elfos\n3-Orcos\n4-Hombres Bestia"))
+        raza = parseInt(prompt("¿cual es tu raza? \n1-Humano - la unica raza que evoluciono en Gaia, y la que los dioses le permiten mayor libertad \n \n2-Elfos - Desde el principio los dioses han estado fancinados con los elfos, y fueron creados para ser la hermosa raza de hombres y mujeres que los dioses tenian en mente devido a esta atencion los elfos son una raza diseñada para entretener a los dioses  \n \n3-Orcos - los dioses al principio querian una raza para que sea enemigo del resto del mundo, afortunadamente se dieron cuenta rapidamente del terrible error que hicieron cuando tuvieron que saltar a defender a los orcos de la ira del resto del mundo, demostrando que crear una raza malvada desde el principio era una terrible idea\n \n4-Hombres Bestia - las tribus de hombres animales son varias pero todas unicas, los dioses los crearon por su facinacion a los animales, muchas tribus ya estan extintas, pero algunas se mantienen fuerte bajo la proteccion de los dioses que las protejen "))
 
         switch (raza) {
             case 1:
-                race_name = "humano"
+                race_name = "Humano"
                 race_hp = 10
                 race_power = 2
                 raza_elegida += 1
@@ -112,7 +127,7 @@ function race() {
 
                 return race_choice;
             case 2:
-                race_name = "elves"
+                race_name = "Elfo"
                 race_hp = 5
                 race_power = 1
                 raza_elegida += 2
@@ -120,7 +135,7 @@ function race() {
 
                 return race_choice;
             case 3:
-                race_name = "orcs"
+                race_name = "orco"
                 race_hp = 20
                 race_power = 3
                 raza_elegida += 3
@@ -128,7 +143,7 @@ function race() {
 
                 return race_choice;
             case 4:
-                race_name = "beast man"
+                race_name = "Hombre Bestia"
                 race_hp = 15
                 race_power = 2
                 raza_elegida += 4
@@ -138,7 +153,7 @@ function race() {
 
 
             default:
-                alert("not a valid option")
+                alert("Elije la raza con un numero del 1 al 4")
                 break;
         }
     }
@@ -151,19 +166,19 @@ function backstory() {
     // este primer switch funciona para elegir la historia del usuario depende de la raza que eligio en la funcion anterior
     switch (raza_elegida) {
         case 1:
-            backstory = parseInt(prompt("backstory \n 1-merchant \n 2-sage\n 3-slave \n 4-soldier"))
+            backstory = parseInt(prompt("Historia \n 1-Mercader \n 2-Sabio\n 3-Esclavo \n 4-Soldado"))
             raza = "human"
             break;
         case 2:
-            backstory = parseInt(prompt("backstory \n 1-Blade dancer \n 2-atendant \n 3-concubine \n 4-exiled"))
+            backstory = parseInt(prompt("Historia \n 1-Blade dancer \n 2-Sirviente \n 3-Concubino \n 4-Exiliado"))
             raza = "elf"
             break;
         case 3:
-            backstory = parseInt(prompt("backstory \n 1-chief \n 2-beserker\n 3-ranger \n 4-shaman"))
+            backstory = parseInt(prompt("Historia \n 1-Jefe \n 2-Berserker\n 3-Explorador \n 4-Cháman"))
             raza = "orc"
             break;
         case 4:
-            backstory = parseInt(prompt("backstory \n 1-gente perro \n 2- gente gato\n 3-gente pájaro \n 4-gente conejo"))
+            backstory = parseInt(prompt("Historia \n 1-gente perro \n 2- gente gato\n 3-gente pájaro \n 4-gente conejo"))
             raza = "beastmen"
             break;
 
@@ -172,6 +187,7 @@ function backstory() {
     }
 
     if (raza == "human") {
+
         switch (backstory) {
             case 1:
                 backstory_name = "mercader"
@@ -202,12 +218,13 @@ function backstory() {
                 story = [backstory_name, backstory_hp, backstory_power]
                 return story;
             default:
-                alert("invalid option")
+                alert("Elije la historia con un numero del 1 al 4")
                 break;
         }
+        // este while permite re ingresar la historia en caso de que el usuario ingreso otro numero
         while (backstory != 1 && backstory != 2 && backstory != 3 && backstory != 4) {
 
-            backstory = parseInt(prompt("backstory \n 1-merchant \n 2-sage\n 3-slave \n 4-soldier"))
+            backstory = parseInt(prompt("Historia \n 1-Mercader \n 2-Sabio\n 3-Esclavo \n 4-Soldado"))
 
             switch (backstory) {
                 case 1:
@@ -239,7 +256,7 @@ function backstory() {
                     story = [backstory_name, backstory_hp, backstory_power]
                     return story;
                 default:
-                    alert("invalid option")
+                    alert("Elije la historia con un numero del 1 al 4")
                     break;
             }
         }
@@ -275,7 +292,7 @@ function backstory() {
                 return story;
 
             default:
-                alert("invalid option")
+                alert("Elije la historia con un numero del 1 al 4")
                 break;
         }
         while (backstory != 1 && backstory != 2 && backstory != 3 && backstory != 4) {
@@ -313,7 +330,7 @@ function backstory() {
                     return story;
 
                 default:
-                    alert("invalid option")
+                    alert("Elije la historia con un numero del 1 al 4")
                     break;
             }
         }
@@ -351,7 +368,7 @@ function backstory() {
                 return story;
 
             default:
-                alert("invalid option")
+                alert("Elije la historia con un numero del 1 al 4")
                 break;
         }
         while (backstory != 1 && backstory != 2 && backstory != 3 && backstory != 4) {
@@ -390,11 +407,11 @@ function backstory() {
                     return story;
 
                 default:
-                    alert("invalid option")
+                    alert("Elije la historia con un numero del 1 al 4")
                     break;
             }
         }
-
+        // este if == beastmen solo esta aqui para poder identificar rapidamente la seccion de beastmen
     } else if (raza == "beastmen") {
         switch (backstory) {
             case 1:
@@ -426,7 +443,7 @@ function backstory() {
                 story = [backstory_name, backstory_hp, backstory_power]
                 return story;
             default:
-                alert("invalid option")
+                alert("Elije la historia con un numero del 1 al 4")
                 break;
         }
         while (backstory != 1 && backstory != 2 && backstory != 3 && backstory != 4) {
@@ -463,7 +480,7 @@ function backstory() {
                     story = [backstory_name, backstory_hp, backstory_power]
                     return story;
                 default:
-                    alert("invalid option")
+                    alert("Elije la historia con un numero del 1 al 4")
                     break;
             }
         }
@@ -473,116 +490,124 @@ function backstory() {
 }
 
 
-const dolls = []
+const dolls = [
+    { name: "araña gigante", hp: 1, dmg: 2, dificultad: 3 },
+    { name: "estatua animada", hp: 2, dmg: 2, dificultad: 2 },
+    { name: "muñeca samurai", hp: 2, dmg: 3, dificultad: 3 },
+    { name: "simulador de santo", hp: 3, dmg: 5, dificultad: 4 },
+    { name: "manada de lobos", hp: 2, dmg: 4, dificultad: 2 },
+]
 
-// alert("Abro mis ojos, y la tenue luz del piso asalta mis ojos como si fuera el sol. Con considerable esfuerzo logro mover mi cabeza para no tener que mirar directo al suelo")
+// comienzo de la aventura
 
-// alert("Mi cuerpo se siente pesado y letárgico, como si hubiera dormido por meses. A pesar de esto, logro levantar mi cabeza para examinar mis alrededores")
+alert("Abro mis ojos, y la tenue luz del piso asalta mis ojos como si fuera el sol. Con considerable esfuerzo logro mover mi cabeza para no tener que mirar directo al suelo")
 
-// alert("Me encuentro en una especie de santuario, adentro de un círculo en una especie de pileta en medio de la habitación, la elevación del círculo hace que la profundidad del agua sea unos centímetros nomas, seria difícil ahogarme adentro del círculo incluso inconsciente")
+alert("Mi cuerpo se siente pesado y letárgico, como si hubiera dormido por meses. A pesar de esto, logro levantar mi cabeza para examinar mis alrededores")
 
-// alert("'Levántate bella durmiente, hay trabajo que hacer'")
+alert("Me encuentro en una especie de santuario, adentro de un círculo en una especie de pileta en medio de la habitación, la elevación del círculo hace que la profundidad del agua sea unos centímetros nomas, seria difícil ahogarme adentro del círculo incluso inconsciente")
 
-// alert("Un hombre se encuentra enfrente mío, alto, con pelo corto, pero bien cuidado, su lenguaje corporal demostraba confianza y elegancia, ojos azules que parecían brillar en la oscuridad de este santuario. está vestido con una túnica extraña de color blanco, con parches dos a los costados de la cadera y uno en el lado derecho del pecho, los parches no estaban cocidos en la parte superior, su túnica está abierta, pero él no parece molestarle, tiene botas chicas que se ajustan al pie de color negro y no pasan el tobillo tiene pantalones de color marrón y una camisa debajo de la túnica, es la vestimenta más extraña que he visto, pero me puedo dar cuenta que es de la más alta calidad")
+alert("'Levántate bella durmiente, hay trabajo que hacer'")
 
-// alert("'Empecemos con algo básico, levántate'. Su voz es imponente, me encuentro intentando levantarme antes de darme cuenta")
+alert("Un hombre se encuentra enfrente mío, alto, con pelo corto, pero bien cuidado, su lenguaje corporal demostraba confianza y elegancia, ojos azules que parecían brillar en la oscuridad de este santuario. está vestido con una túnica extraña de color blanco, con parches dos a los costados de la cadera y uno en el lado derecho del pecho, los parches no estaban cocidos en la parte superior, su túnica está abierta, pero él no parece molestarle, tiene botas chicas que se ajustan al pie de color negro y no pasan el tobillo tiene pantalones de color marrón y una camisa debajo de la túnica, es la vestimenta más extraña que he visto, pero me puedo dar cuenta que es de la más alta calidad")
 
-// levantarse();
+alert("'Empecemos con algo básico, levántate'. Su voz es imponente, me encuentro intentando levantarme antes de darme cuenta")
+
+levantarse();
 
 
-// alert("'Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día'")
+alert("'Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día'")
 
-// alert("'Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos'")
+alert("'Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos'")
 
-// alert("'Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos'")
-// // la variable q representa las preguntas que le quedan al usuario
-// let q = 3;
+alert("'Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos'")
+// la variable q representa las preguntas que le quedan al usuario
+let q = 3;
 
-// // la variable input representa la eleccion de pregunta del usuario
-// let input = prompt("Presiona un número para elegir una opción \n 1-¿Tú eres el Dios de los Constructos? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Héroes? \n 4-¿Por qué yo?");
+// la variable input representa la eleccion de pregunta del usuario
+let input = prompt("Presiona un número para elegir una opción \n 1-¿Tú eres el Dios de los Constructos? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Héroes? \n 4-¿Por qué yo?");
 
-// for (let i = q; i > 0; i--) {
+for (let i = q; i > 0; i--) {
 
-//     //  se le resta 1 a la variable q para representar que ya hizo una pregunta
-//     q -= 1;
+    //  se le resta 1 a la variable q para representar que ya hizo una pregunta
+    q -= 1;
 
-//     if (input == 1) {
-//         alert("Si")
-//         break
-//     } else if (input == 2) {
-//         alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
-//     } else if (input == 3) {
-//         alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
-//     } else if (input == 4) {
-//         alert("Ah, eso es simple, porque lo digo yo")
-//     } else {
-//         alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
-//     }
+    if (input == 1) {
+        alert("Si")
+        break
+    } else if (input == 2) {
+        alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
+    } else if (input == 3) {
+        alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
+    } else if (input == 4) {
+        alert("Ah, eso es simple, porque lo digo yo")
+    } else {
+        alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
+    }
 
-//     if (i != 1) {
-//         input = prompt("Presiona un número para elegir una opción \n 1-¿Tú eres el Dios de los Constructos? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Héroes? \n 4-¿Por qué yo?");
-//     }
-// }
+    if (i != 1) {
+        input = prompt("Presiona un número para elegir una opción \n 1-¿Tú eres el Dios de los Constructos? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Héroes? \n 4-¿Por qué yo?");
+    }
+}
 
-// if (input == 1 && q > 0) {
+if (input == 1 && q > 0) {
 
-//     input = prompt("Presiona un número para elegir una opción  \n 1-¿En serio? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Heroes? \n 4-¿Por qué yo?");
+    input = prompt("Presiona un número para elegir una opción  \n 1-¿En serio? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Heroes? \n 4-¿Por qué yo?");
 
-//     for (let i = q; i > 0; i--) {
+    for (let i = q; i > 0; i--) {
 
-//         //  se le resta 1 a la variable q para representar que ya hizo una pregunta
-//         q -= 1;
+        //  se le resta 1 a la variable q para representar que ya hizo una pregunta
+        q -= 1;
 
-//         if (input == 1) {
-//             alert("Si")
-//             break
-//         } else if (input == 2) {
-//             alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
-//         } else if (input == 3) {
-//             alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
-//         } else if (input == 4) {
-//             alert("Ah, eso es simple, porque lo digo yo")
-//         } else {
-//             alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
-//         }
+        if (input == 1) {
+            alert("Si")
+            break
+        } else if (input == 2) {
+            alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
+        } else if (input == 3) {
+            alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
+        } else if (input == 4) {
+            alert("Ah, eso es simple, porque lo digo yo")
+        } else {
+            alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
+        }
 
-//         if (i != 1) {
-//             input = prompt("Presiona un número para elegir una opción  \n 1-¿En serio? \n 2-¿Donde estoy? \n 3-¿Que es el Juego de Heroes? \n 4-¿Porque yo?");
-//         }
+        if (i != 1) {
+            input = prompt("Presiona un número para elegir una opción  \n 1-¿En serio? \n 2-¿Donde estoy? \n 3-¿Que es el Juego de Heroes? \n 4-¿Porque yo?");
+        }
 
-//     }
-// }
+    }
+}
 
-// if (input == 1 && q > 0) {
+if (input == 1 && q > 0) {
 
-//     input = prompt("Presiona un número para elegir una opción  \n 1-¿Usted? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Heroes? \n 4-¿Por qué yo?");
+    input = prompt("Presiona un número para elegir una opción  \n 1-¿Usted? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Heroes? \n 4-¿Por qué yo?");
 
-//     for (let i = q; i > 0; i--) {
-//         //  se le resta 1 a la variable q para representar que ya hizo una pregunta
-//         q -= 1;
+    for (let i = q; i > 0; i--) {
+        //  se le resta 1 a la variable q para representar que ya hizo una pregunta
+        q -= 1;
 
-//         if (input == 1) {
-//             alert("Asi es")
-//         } else if (input == 2) {
-//             alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
-//         } else if (input == 3) {
-//             alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
-//         } else if (input == 4) {
-//             alert("Ah, eso es simple, porque lo digo yo")
-//         } else {
-//             alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
-//         }
+        if (input == 1) {
+            alert("Asi es")
+        } else if (input == 2) {
+            alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
+        } else if (input == 3) {
+            alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
+        } else if (input == 4) {
+            alert("Ah, eso es simple, porque lo digo yo")
+        } else {
+            alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
+        }
 
-//     }
-// }
+    }
+}
 
-// if (input == 1) {
-//     input = prompt("'Okay, hora de empezar' \n 1-Pero..")
-// };
+if (input == 1) {
+    input = prompt("'Okay, hora de empezar' \n 1-Pero..")
+};
 
-// alert("'Okay, hora de empezar'");
+alert("'Okay, hora de empezar'");
 
-alert("'Bueno, como primer punto tengo unas preguntas para ti me ayudara a formar una buena idea de tus capacidades y aptitudes'")
+alert("'Como primer punto tengo unas preguntas para ti me ayudara a formar una buena idea de tus capacidades y aptitudes'")
 
 
 const user_doll = {
@@ -590,9 +615,11 @@ const user_doll = {
     sex: gender(),
     race: race()[0],
     background: backstory()[0],
-    hp: 10 + race_choice[1]+ story[1],
-    power: race_choice[2]+ story[2]
+    // esto determina la vida que el usuario tiene al empezar la aventura, game over cuando llega a zero
+    hp: 10 + race_choice[1] + story[1],
+    // este atributo power representa el bonus del usuario a la hora de rollear
+    power: race_choice[2] + story[2]
 }
-console.log(user_doll);
-console.log(story);
+
+
 // alert("'No te preocupes, la primera prueba es sencilla, solo tienes que elegir un dios...'");
