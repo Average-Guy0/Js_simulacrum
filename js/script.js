@@ -1,5 +1,5 @@
 // tutorial
-alert("Para que este programa funcione bien, tienes que presionar un número para elegir una opción. Por ejemplo si la prompt dice \n 1- opción 1 \n 2-opción 2 \n Para elegir opción 1 tienes que solo poner '1' en la prompt")
+// alert("Para que este programa funcione bien, tienes que presionar un número para elegir una opción. Por ejemplo si la prompt dice \n 1- opción 1 \n 2-opción 2 \n Para elegir opción 1 tienes que solo poner '1' en la prompt")
 
 // functions 
 function levantarse() {
@@ -500,126 +500,142 @@ const dolls = [
 
 // comienzo de la aventura
 
-alert("Abro mis ojos, y la tenue luz del piso asalta mis ojos como si fuera el sol. Con considerable esfuerzo logro mover mi cabeza para no tener que mirar directo al suelo")
+// alert("Abro mis ojos, y la tenue luz del piso asalta mis ojos como si fuera el sol. Con considerable esfuerzo logro mover mi cabeza para no tener que mirar directo al suelo")
 
-alert("Mi cuerpo se siente pesado y letárgico, como si hubiera dormido por meses. A pesar de esto, logro levantar mi cabeza para examinar mis alrededores")
+// alert("Mi cuerpo se siente pesado y letárgico, como si hubiera dormido por meses. A pesar de esto, logro levantar mi cabeza para examinar mis alrededores")
 
-alert("Me encuentro en una especie de santuario, adentro de un círculo en una especie de pileta en medio de la habitación, la elevación del círculo hace que la profundidad del agua sea unos centímetros nomas, seria difícil ahogarme adentro del círculo incluso inconsciente")
+// alert("Me encuentro en una especie de santuario, adentro de un círculo en una especie de pileta en medio de la habitación, la elevación del círculo hace que la profundidad del agua sea unos centímetros nomas, seria difícil ahogarme adentro del círculo incluso inconsciente")
 
-alert("'Levántate bella durmiente, hay trabajo que hacer'")
+// alert("'Levántate bella durmiente, hay trabajo que hacer'")
 
-alert("Un hombre se encuentra enfrente mío, alto, con pelo corto, pero bien cuidado, su lenguaje corporal demostraba confianza y elegancia, ojos azules que parecían brillar en la oscuridad de este santuario. está vestido con una túnica extraña de color blanco, con parches dos a los costados de la cadera y uno en el lado derecho del pecho, los parches no estaban cocidos en la parte superior, su túnica está abierta, pero él no parece molestarle, tiene botas chicas que se ajustan al pie de color negro y no pasan el tobillo tiene pantalones de color marrón y una camisa debajo de la túnica, es la vestimenta más extraña que he visto, pero me puedo dar cuenta que es de la más alta calidad")
+// alert("Un hombre se encuentra enfrente mío, alto, con pelo corto, pero bien cuidado, su lenguaje corporal demostraba confianza y elegancia, ojos azules que parecían brillar en la oscuridad de este santuario. está vestido con una túnica extraña de color blanco, con parches dos a los costados de la cadera y uno en el lado derecho del pecho, los parches no estaban cocidos en la parte superior, su túnica está abierta, pero él no parece molestarle, tiene botas chicas que se ajustan al pie de color negro y no pasan el tobillo tiene pantalones de color marrón y una camisa debajo de la túnica, es la vestimenta más extraña que he visto, pero me puedo dar cuenta que es de la más alta calidad")
 
-alert("'Empecemos con algo básico, levántate'. Su voz es imponente, me encuentro intentando levantarme antes de darme cuenta")
+// alert("'Empecemos con algo básico, levántate'. Su voz es imponente, me encuentro intentando levantarme antes de darme cuenta")
 
-levantarse();
+// levantarse();
 
 
-alert("'Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día'")
+// alert("'Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día'")
 
-alert("'Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos'")
+// alert("'Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos'")
 
-alert("'Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos'")
-// la variable q representa las preguntas que le quedan al usuario
-let q = 3;
+// alert("'Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos'")
+// // la variable q representa las preguntas que le quedan al usuario
+// let q = 3;
 
-// la variable input representa la eleccion de pregunta del usuario
-let input = prompt("Presiona un número para elegir una opción \n 1-¿Tú eres el Dios de los Constructos? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Héroes? \n 4-¿Por qué yo?");
+// // la variable input representa la eleccion de pregunta del usuario
+// let input = prompt("Presiona un número para elegir una opción \n 1-¿Tú eres el Dios de los Constructos? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Héroes? \n 4-¿Por qué yo?");
 
-for (let i = q; i > 0; i--) {
+// for (let i = q; i > 0; i--) {
 
-    //  se le resta 1 a la variable q para representar que ya hizo una pregunta
-    q -= 1;
+//     //  se le resta 1 a la variable q para representar que ya hizo una pregunta
+//     q -= 1;
 
-    if (input == 1) {
-        alert("Si")
-        break
-    } else if (input == 2) {
-        alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
-    } else if (input == 3) {
-        alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
-    } else if (input == 4) {
-        alert("Ah, eso es simple, porque lo digo yo")
-    } else {
-        alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
-    }
+//     if (input == 1) {
+//         alert("Si")
+//         break
+//     } else if (input == 2) {
+//         alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
+//     } else if (input == 3) {
+//         alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
+//     } else if (input == 4) {
+//         alert("Ah, eso es simple, porque lo digo yo")
+//     } else {
+//         alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
+//     }
 
-    if (i != 1) {
-        input = prompt("Presiona un número para elegir una opción \n 1-¿Tú eres el Dios de los Constructos? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Héroes? \n 4-¿Por qué yo?");
-    }
+//     if (i != 1) {
+//         input = prompt("Presiona un número para elegir una opción \n 1-¿Tú eres el Dios de los Constructos? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Héroes? \n 4-¿Por qué yo?");
+//     }
+// }
+
+// if (input == 1 && q > 0) {
+
+//     input = prompt("Presiona un número para elegir una opción  \n 1-¿En serio? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Heroes? \n 4-¿Por qué yo?");
+
+//     for (let i = q; i > 0; i--) {
+
+//         //  se le resta 1 a la variable q para representar que ya hizo una pregunta
+//         q -= 1;
+
+//         if (input == 1) {
+//             alert("Si")
+//             break
+//         } else if (input == 2) {
+//             alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
+//         } else if (input == 3) {
+//             alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
+//         } else if (input == 4) {
+//             alert("Ah, eso es simple, porque lo digo yo")
+//         } else {
+//             alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
+//         }
+
+//         if (i != 1) {
+//             input = prompt("Presiona un número para elegir una opción  \n 1-¿En serio? \n 2-¿Donde estoy? \n 3-¿Que es el Juego de Heroes? \n 4-¿Porque yo?");
+//         }
+
+//     }
+// }
+
+// if (input == 1 && q > 0) {
+
+//     input = prompt("Presiona un número para elegir una opción  \n 1-¿Usted? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Heroes? \n 4-¿Por qué yo?");
+
+//     for (let i = q; i > 0; i--) {
+//         //  se le resta 1 a la variable q para representar que ya hizo una pregunta
+//         q -= 1;
+
+//         if (input == 1) {
+//             alert("Asi es")
+//         } else if (input == 2) {
+//             alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
+//         } else if (input == 3) {
+//             alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
+//         } else if (input == 4) {
+//             alert("Ah, eso es simple, porque lo digo yo")
+//         } else {
+//             alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
+//         }
+
+//     }
+// }
+
+// if (input == 1) {
+//     input = prompt("'Okay, hora de empezar' \n 1-Pero..")
+// };
+
+// alert("'Okay, hora de empezar'");
+
+// alert("'Como primer punto tengo unas preguntas para ti me ayudara a formar una buena idea de tus capacidades y aptitudes'")
+
+
+// const user_doll = {
+//     name: prompt("¿cual es tu nombre?"),
+//     sex: gender(),
+//     race: race()[0],
+//     background: backstory()[0],
+//     // esto determina la vida que el usuario tiene al empezar la aventura, game over cuando llega a zero
+//     hp: 10 + race_choice[1] + story[1],
+//     // este atributo power representa el bonus del usuario a la hora de rollear
+//     power: race_choice[2] + story[2]
+// }
+alert("'¿que es con esa mirada?' pregunto de repente, 'es solo, que no eres como me imaginaba un dios' respondi \n 'oh ¿y que esperaba?, ¿ropa con luz, cuatro brazos, cuernos por ojos, piel roja?' dijo con una exasperada exprecion, pincho el templo de su nariz.\n '¿quieres una demostracion?¿eso te convenceria?' estaba por expresar que no era necesario pero el ya habia alzado su mano en direccion a la parte de atras del santuario, de repente objetos empezaron a levitar, y consolidarse en una forma humanoide, es masculino tiene incluso un pedaso de roca que representaba sus genitales, tiene la mitad de mi estatura, de repente se detuvo, y luego venas de luz aparecieron en su cuerpo, y asi cobro vida")
+
+let golem_dmg = parseInt(prompt("Dale un arma, un monton de armas voladoras aparecieron en un instante, flotando alrededor mio \n 1-pedazo de madera (daño=1) \n 2-un hacha (daño=2) \n 3-una ballesta (daño=3)"))
+
+// esto en caso de que no pongan un numero valido
+while (golem_dmg!=1&&golem_dmg!=2&&golem_dmg!=3){
+    golem_dmg = parseInt(prompt("Dale un arma, un monton de armas voladoras aparecieron en un instante, flotando alrededor mio \n 1-pedazo de madera (daño=1) \n 2-un hacha (daño=2) \n 3-una ballesta (daño=3)"))
 }
 
-if (input == 1 && q > 0) {
+let golem_name = prompt("'finalmente dale el nombre que quieras' me dijo mientras escribia algo en su tabla negra")
 
-    input = prompt("Presiona un número para elegir una opción  \n 1-¿En serio? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Heroes? \n 4-¿Por qué yo?");
+const golem = new doll(golem_name,1,golem_dmg,1)
 
-    for (let i = q; i > 0; i--) {
-
-        //  se le resta 1 a la variable q para representar que ya hizo una pregunta
-        q -= 1;
-
-        if (input == 1) {
-            alert("Si")
-            break
-        } else if (input == 2) {
-            alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
-        } else if (input == 3) {
-            alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
-        } else if (input == 4) {
-            alert("Ah, eso es simple, porque lo digo yo")
-        } else {
-            alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
-        }
-
-        if (i != 1) {
-            input = prompt("Presiona un número para elegir una opción  \n 1-¿En serio? \n 2-¿Donde estoy? \n 3-¿Que es el Juego de Heroes? \n 4-¿Porque yo?");
-        }
-
-    }
-}
-
-if (input == 1 && q > 0) {
-
-    input = prompt("Presiona un número para elegir una opción  \n 1-¿Usted? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Heroes? \n 4-¿Por qué yo?");
-
-    for (let i = q; i > 0; i--) {
-        //  se le resta 1 a la variable q para representar que ya hizo una pregunta
-        q -= 1;
-
-        if (input == 1) {
-            alert("Asi es")
-        } else if (input == 2) {
-            alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
-        } else if (input == 3) {
-            alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
-        } else if (input == 4) {
-            alert("Ah, eso es simple, porque lo digo yo")
-        } else {
-            alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
-        }
-
-    }
-}
-
-if (input == 1) {
-    input = prompt("'Okay, hora de empezar' \n 1-Pero..")
-};
-
-alert("'Okay, hora de empezar'");
-
-alert("'Como primer punto tengo unas preguntas para ti me ayudara a formar una buena idea de tus capacidades y aptitudes'")
-
-
-const user_doll = {
-    name: prompt("¿cual es tu nombre?"),
-    sex: gender(),
-    race: race()[0],
-    background: backstory()[0],
-    // esto determina la vida que el usuario tiene al empezar la aventura, game over cuando llega a zero
-    hp: 10 + race_choice[1] + story[1],
-    // este atributo power representa el bonus del usuario a la hora de rollear
-    power: race_choice[2] + story[2]
-}
-
-
+dolls.push(golem)
+// funcion de busqueda para demostrar que se hacerlo
+const find_doll = dolls.filter((el)=> el.name == golem_name)
+console.log(find_doll);
+console.log(dolls);
 // alert("'No te preocupes, la primera prueba es sencilla, solo tienes que elegir un dios...'");
