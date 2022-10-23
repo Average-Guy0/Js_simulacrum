@@ -3,23 +3,32 @@
 // -functions
 // -arrays
 
+Swal.fire({
+    title: 'log in',
+    titleText: 'Dollhouse usa una base de datos falsa para operar, puedes ingresar con el siguiente usuario',
+    html: 'Usuario: Salami Dave <br> Contraseña: contraseña',
+    icon: 'info',
+    confirmButtonText: 'Entendio'
+})
+
 // tutorial
 // alert("Para que este programa funcione bien, tienes que presionar un número para elegir una opción. Por ejemplo si la prompt dice \n 1- opción 1 \n 2-opción 2 \n Para elegir opción 1 tienes que solo poner '1' en la prompt")
 
-// dom
+// // dom
 const log_user = document.querySelector("#user"),
     log_pass = document.querySelector("#pass"),
     log_btn = document.querySelector("#btn_log"),
     log_out_btn = document.querySelector("#btn_log_out"),
     toggles = document.querySelectorAll(".toggle"),
     game = document.querySelector("#game")
-    // test = document.querySelector(".btn-outline-light")
-    
 
 
 
-// functions 
 
+
+// // functions 
+
+// esta funcion revisa la falsa base de datos para  loggearse en el sitio
 function validation(user, password) {
     let match = fake_DB.find(fake_DB => fake_DB.user == user)
 
@@ -32,6 +41,7 @@ function validation(user, password) {
     }
 };
 
+// esta guarda el usuario que se esta usando de la false base de datos en el local storage considerandolo como usuario activo
 function saving_user(db_user) {
     const user = {
         user: db_user.user,
@@ -47,17 +57,20 @@ function clear_storage() {
     sessionStorage.clear();
 }
 
+// cambia los display: none; del html para mostrar la barra superior con el boton de log out
 function change_display() {
     toggles.forEach(tag => {
         tag.classList.toggle("d-none")
     })
 }
 
+// esta funcion permite recuperar el user del local storage donde fue guardado
 function loot_user() {
     let looted_user = JSON.parse(localStorage.getItem("user"));
     return looted_user;
 }
 
+// esta funcion se aplica al cargarse la pagina para saltear el logueo de nuevo
 function logged_user(user) {
     if (user) {
         change_display()
@@ -554,8 +567,9 @@ function logged_user(user) {
 // // array
 
 // falsa base de datos
+
 const fake_DB = [{
-    user: "salami dave",
+    user: "Salami Dave",
     password: "contraseña",
     achivement: 0
 }, {
@@ -576,7 +590,7 @@ const fake_DB = [{
 // ];
 
 
-// events
+// // events
 
 window.onload = () => {
     logged_user(loot_user());
@@ -586,16 +600,25 @@ log_btn.onclick = () => {
     // e.preventDefault();
 
     if (!log_user.value || !log_pass.value) {
-        alert("falta usuario o contraseña correctos");
+        Swal.fire({
+            text:"Falta usuario y/o contraseña correctos",
+            icon: "error"   
+        });
     } else {
         let data = validation(log_user.value, log_pass.value)
         if (!data) {
-            alert("f in the chat")
+            Swal.fire({
+                text:"Falta usuario y/o contraseña correctos",
+                icon:"error"
+            });
         } else {
-            saving_user(data)
+            saving_user(data);
             change_display();
+            Swal.fire({
+                title: "Log In Exitoso",
+                icon: "success"
+            });
         }
-
     }
 }
 
@@ -612,17 +635,21 @@ game.innerHTML = `<p>Abro mis ojos, y la tenue luz del piso asalta mis ojos como
 <p>"Empecemos con algo básico, levántate." Su voz es imponente, me encuentro intentando levantarme antes de darme cuenta</p>
 <button type="button" class="btn btn-outline-light m-3">Levantarse</button>`;
 
-test = document.querySelector(".btn-outline-light");
-console.log(test);
-test.onclick = () => {
-    game.innerHTML = ""
+get_up_btn = document.querySelector(".btn-outline-light");
+get_up_btn.onclick = () => {
+    game.innerHTML = `<p>Con mayor esfuerzo del que esperaba logro levantarme</p>
+    <p>"Bien hecho" dice mientras su atención está en escribir algo en una tabla negra que tiene en la mano</p>
+    <p>"Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día"</p>
+    <p>"Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos"</p>
+    <p>"Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos"</p>
+    <button type="button" class="btn btn-outline-light btn-sm">vos sos dios?</button>
+    <button type="button" class="btn btn-outline-light btn-sm">donde estoy?</button>
+    <button type="button" class="btn btn-outline-light btn-sm">porque yo?</button>
+    <button type="button" class="btn btn-outline-light btn-sm">que es el juego de heroes?</button>`
 };
 
+
 // // comienzo de la aventura
-
-
-// levantarse();
-
 
 // alert("'Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día'");
 
