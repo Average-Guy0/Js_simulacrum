@@ -15,13 +15,13 @@ const log_user = document.querySelector("#user"),
     toggles = document.querySelectorAll(".toggle"),
     box = document.querySelector("#box"),
     start = document.querySelector("#start"),
-    clear_achv = document.querySelector("#clear-achv")
+    clear_achv = document.querySelector("#clear-achv");
 
 // // functions 
 
 // esta funcion revisa la falsa base de datos para  loggearse en el sitio
 function validation(user, password) {
-    let match = fake_DB.find(fake_DB => fake_DB.user == user)
+    let match = fake_DB.find(fake_DB => fake_DB.user == user);
 
     if (typeof match == "undefined") {
         return false;
@@ -29,7 +29,7 @@ function validation(user, password) {
         return false;
     } else {
         return match;
-    }
+    };
 };
 
 // esta guarda el usuario que se esta usando de la false base de datos en el local storage considerandolo como usuario activo
@@ -40,37 +40,37 @@ function saving_user(db_user) {
         achivement: db_user.achivement
     };
 
-    localStorage.setItem("user", JSON.stringify(user))
-}
+    localStorage.setItem("user", JSON.stringify(user));
+};
 
 function clear_storage() {
     localStorage.clear();
     sessionStorage.clear();
-}
+};
 // esta funcion esta diseñada para borrar los logros que el usuario posee, en caso de que quiera adquirirlos nuevamente
 function clear_record() {
-    let user = loot_user()
-    user.achivement = 0
-    localStorage.setItem("user", JSON.stringify(user))
-}
+    let user = loot_user();
+    user.achivement = 0;
+    localStorage.setItem("user", JSON.stringify(user));
+};
 
 // cambia los display: none; del html para mostrar la barra superior con el boton de log out
 function change_display() {
     toggles.forEach(tag => {
-        tag.classList.toggle("d-none")
-    })
-}
+        tag.classList.toggle("d-none");
+    });
+};
 
 // esta funcion permite recuperar el user del local storage donde fue guardado
 function loot_user() {
     let looted_user = JSON.parse(localStorage.getItem("user"));
     return looted_user;
-}
+};
 
 // esta funcion se aplica al cargarse la pagina para saltear el logueo de nuevo
 function logged_user(user) {
-    user && change_display()
-}
+    user && change_display();
+};
 
 // funcion para simular dados, son dos dados de 6 que funcionaran para decidir el resultado del usuario
 
@@ -81,7 +81,7 @@ const dos_d6 = () => { return Math.ceil(Math.random() * 6) + Math.ceil(Math.rand
 // 7-9 pequeño exito
 // <=6 fracaso
 function roll(dificultad) {
-    return dos_d6() + user_doll.power - dificultad
+    return dos_d6() + user_doll.power - dificultad;
 };
 
 // classe para contruir oponentes
@@ -90,7 +90,7 @@ class Doll {
         this.name = name
         this.hp = hit_points
         this.dmg = damage
-        this.dificultad = dificultad
+        this.dificultad = dificultad;
     };
 };
 
@@ -571,7 +571,7 @@ const dolls = [
 
 window.onload = () => {
     logged_user(loot_user());
-}
+};
 
 
 // funcion que primero revisa que esten los valores necesarios para log in y luego revisa que esten correctos
@@ -585,7 +585,7 @@ log_btn.onclick = () => {
             icon: "error"
         });
     } else {
-        let data = validation(log_user.value, log_pass.value)
+        let data = validation(log_user.value, log_pass.value);
         if (!data) {
             Swal.fire({
                 text: "Falta usuario y/o contraseña correctos",
@@ -598,14 +598,14 @@ log_btn.onclick = () => {
                 title: "Log In Exitoso",
                 icon: "success"
             });
-        }
-    }
-}
+        };
+    };
+};
 // boton que permite desloguearse
 log_out_btn.onclick = () => {
     change_display();
     clear_storage();
-}
+};
 
 // boton que borra los logros del usuario
 clear_achv.onclick = () => {
@@ -619,15 +619,15 @@ clear_achv.onclick = () => {
         confirmButtonText: 'Si, borralos'
     }).then((result) => {
         if (result.isConfirmed) {
-            clear_record()
+            clear_record();
             Swal.fire(
                 'Exito',
                 'tus logros han sido borrados',
                 'success'
-            )
-        }
-    })
-}
+            );
+        };
+    });
+};
 
 // el boton remplaza los contenidos de la tag section en el html con la naracion de la historia, agrega tambien un boton para continuar
 start.onclick = () => {
@@ -639,7 +639,7 @@ start.onclick = () => {
 <p>"Empecemos con algo básico, levántate." Su voz es imponente, me encuentro intentando levantarme antes de darme cuenta</p>
 <button type="button" id="get-up" class="btn btn-outline-light m-3">Levantarse</button>`;
     // Dom del boton creado por el script 
-    get_up_btn = document.querySelector("#get-up")
+    get_up_btn = document.querySelector("#get-up");
     // el boton continuara con la historia y creara la opcion de hacer 3 preguntas
     get_up_btn.onclick = () => {
         box.innerHTML = `<p>Con mayor esfuerzo del que esperaba logro levantarme</p>
@@ -652,7 +652,7 @@ start.onclick = () => {
             <button type="button" class="btn btn-outline-light btn-sm m-2">donde estoy?</button>
             <button type="button" class="btn btn-outline-light btn-sm m-2">porque yo?</button>
             <button type="button" class="btn btn-outline-light btn-sm m-2">que es el juego de heroes?</button>
-        </div>`
+        </div>`;
     };
 };
 
