@@ -5,15 +5,7 @@
 // -eventos
 
 // mientras no haya un usuario logueado la alerta se dispara para informar que usuario puede usar para jugar
-if (localStorage.getItem("user") == null) {
-    Swal.fire({
-        title: 'log in',
-        titleText: 'Dollhouse usa una base de datos falsa para operar, puedes ingresar con el siguiente usuario',
-        html: 'Usuario: Salami Dave <br> Contraseña: contraseña',
-        icon: 'info',
-        confirmButtonText: 'Entendio'
-    })
-}
+(localStorage.getItem("user") == null) && Swal.fire({ title: 'log in', titleText: 'Dollhouse usa una base de datos falsa para operar, puedes ingresar con el siguiente usuario', html: 'Usuario: salami dave <br> Contraseña: contraseña', icon: 'info', confirmButtonText: 'Entendio' }); 
 
 // // dom
 const log_user = document.querySelector("#user"),
@@ -77,9 +69,7 @@ function loot_user() {
 
 // esta funcion se aplica al cargarse la pagina para saltear el logueo de nuevo
 function logged_user(user) {
-    if (user) {
-        change_display()
-    }
+    user && change_display()
 }
 
 // funcion para simular dados, son dos dados de 6 que funcionaran para decidir el resultado del usuario
@@ -558,7 +548,7 @@ class Doll {
 // falsa base de datos
 
 const fake_DB = [{
-    user: "Salami Dave",
+    user: "salami dave",
     password: "contraseña",
     achivement: 0
 }, {
@@ -657,10 +647,12 @@ start.onclick = () => {
         <p>"Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día"</p>
         <p>"Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos"</p>
         <p>"Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos"</p>
-        <button type="button" class="btn btn-outline-light btn-sm test">vos sos dios?</button>
-        <button type="button" class="btn btn-outline-light btn-sm test2">donde estoy?</button>
-        <button type="button" class="btn btn-outline-light btn-sm">porque yo?</button>
-        <button type="button" class="btn btn-outline-light btn-sm">que es el juego de heroes?</button>`
+        <div class="d-flex justify-content-around">
+            <button type="button" class="btn btn-outline-light btn-sm m-2">vos sos dios?</button>
+            <button type="button" class="btn btn-outline-light btn-sm m-2">donde estoy?</button>
+            <button type="button" class="btn btn-outline-light btn-sm m-2">porque yo?</button>
+            <button type="button" class="btn btn-outline-light btn-sm m-2">que es el juego de heroes?</button>
+        </div>`
     };
 };
 
