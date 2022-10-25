@@ -2,17 +2,18 @@
 // -dom
 // -functions
 // -arrays
+// -eventos
 
-Swal.fire({
-    title: 'log in',
-    titleText: 'Dollhouse usa una base de datos falsa para operar, puedes ingresar con el siguiente usuario',
-    html: 'Usuario: Salami Dave <br> Contraseña: contraseña',
-    icon: 'info',
-    confirmButtonText: 'Entendio'
-})
-
-// tutorial
-// alert("Para que este programa funcione bien, tienes que presionar un número para elegir una opción. Por ejemplo si la prompt dice \n 1- opción 1 \n 2-opción 2 \n Para elegir opción 1 tienes que solo poner '1' en la prompt")
+// mientras no haya un usuario logueado la alerta se dispara para informar que usuario puede usar para jugar
+if (localStorage.getItem("user") == null) {
+    Swal.fire({
+        title: 'log in',
+        titleText: 'Dollhouse usa una base de datos falsa para operar, puedes ingresar con el siguiente usuario',
+        html: 'Usuario: Salami Dave <br> Contraseña: contraseña',
+        icon: 'info',
+        confirmButtonText: 'Entendio'
+    })
+}
 
 // // dom
 const log_user = document.querySelector("#user"),
@@ -20,11 +21,9 @@ const log_user = document.querySelector("#user"),
     log_btn = document.querySelector("#btn_log"),
     log_out_btn = document.querySelector("#btn_log_out"),
     toggles = document.querySelectorAll(".toggle"),
-    game = document.querySelector("#game")
-
-
-
-
+    box = document.querySelector("#box"),
+    start = document.querySelector("#start"),
+    clear_achv = document.querySelector("#clear-achv")
 
 // // functions 
 
@@ -56,6 +55,12 @@ function clear_storage() {
     localStorage.clear();
     sessionStorage.clear();
 }
+// esta funcion esta diseñada para borrar los logros que el usuario posee, en caso de que quiera adquirirlos nuevamente
+function clear_record() {
+    let user = loot_user()
+    user.achivement = 0
+    localStorage.setItem("user", JSON.stringify(user))
+}
 
 // cambia los display: none; del html para mostrar la barra superior con el boton de log out
 function change_display() {
@@ -77,43 +82,27 @@ function logged_user(user) {
     }
 }
 
-// function levantarse() {
-//     let levantar = false
+// funcion para simular dados, son dos dados de 6 que funcionaran para decidir el resultado del usuario
 
-//     while (!levantar) {
-//         let moverse = prompt("Presiona un número para elegir una opción \n1- Para levantarse")
-//         if (moverse == 1) {
-//             levantar = true
-//         } else {
-//             alert("'Vamos puedes hacer algo mejor que eso, levántate'")
-//         };
+const dos_d6 = () => { return Math.ceil(Math.random() * 6) + Math.ceil(Math.random() * 6) }
+// esta funcion es la que permite determinar el exito o fracaso de los encuentros que el usuario encuentra, 
+// basicamente tira dos dados de 6 y le suma el bonus poder del usuario y resta la dificultad
+// >=10 exito
+// 7-9 pequeño exito
+// <=6 fracaso
+function roll(dificultad) {
+    return dos_d6() + user_doll.power - dificultad
+};
 
-//     };
-//     alert("Con mayor esfuerzo del que esperaba logro levantarme");
-//     alert("'Bien hecho' dice mientras su atención está en escribir algo en una tabla negra que tiene en la mano")
-// };
-
-// // funcion para simular dados, son dos dados de 6 que funcionaran para decidir el resultado del usuario
-
-// const dos_d6 = () => { return Math.ceil(Math.random() * 6) + Math.ceil(Math.random() * 6) }
-// // esta funcion es la que permite determinar el exito o fracaso de los encuentros que el usuario encuentra, 
-// // basicamente tira dos dados de 6 y le suma el bonus poder del usuario y resta la dificultad
-// // >=10 exito
-// // 7-9 pequeño exito
-// // <=6 fracaso
-// function roll(dificultad) {
-//     return dos_d6() + user_doll.power - dificultad
-// };
-
-// // classe para contruir oponentes, no estoy seguro si le encontrare alguna utilidad
-// class Doll {
-//     constructor(name, hit_points, damage, dificultad) {
-//         this.name = name
-//         this.hp = hit_points
-//         this.dmg = damage
-//         this.dificultad = dificultad
-//     };
-// };
+// classe para contruir oponentes
+class Doll {
+    constructor(name, hit_points, damage, dificultad) {
+        this.name = name
+        this.hp = hit_points
+        this.dmg = damage
+        this.dificultad = dificultad
+    };
+};
 
 // function gender() {
 
@@ -576,19 +565,17 @@ const fake_DB = [{
     user: "witch in the glass",
     password: "nothing",
     achivement: 100
-}
+}];
+
+
+
+const dolls = [
+    new Doll("araña gigante", 1, 2, 3),
+    new Doll("estatua animada", 2, 2, 2),
+    new Doll("muñeca samurai", 2, 3, 3),
+    new Doll("simulador de santo", 3, 5, 4),
+    new Doll("manada de lobos", 2, 4, 2)
 ];
-
-
-
-// const dolls = [
-//     new Doll ("araña gigante",1,2,3),
-//     new Doll ("estatua animada",2,2,2),
-//     new Doll ("muñeca samurai",2,3,3),
-//     new Doll ("simulador de santo",3,5,4),
-//     new Doll ("manada de lobos",2,4,2)
-// ];
-
 
 // // events
 
@@ -596,20 +583,23 @@ window.onload = () => {
     logged_user(loot_user());
 }
 
+
+// funcion que primero revisa que esten los valores necesarios para log in y luego revisa que esten correctos
+// una vez confirmado con la falsa base de datos, guarda el usuario en el storage, cambia el display y manda una alerta
 log_btn.onclick = () => {
     // e.preventDefault();
 
     if (!log_user.value || !log_pass.value) {
         Swal.fire({
-            text:"Falta usuario y/o contraseña correctos",
-            icon: "error"   
+            text: "Falta usuario y/o contraseña correctos",
+            icon: "error"
         });
     } else {
         let data = validation(log_user.value, log_pass.value)
         if (!data) {
             Swal.fire({
-                text:"Falta usuario y/o contraseña correctos",
-                icon:"error"
+                text: "Falta usuario y/o contraseña correctos",
+                icon: "error"
             });
         } else {
             saving_user(data);
@@ -621,32 +611,63 @@ log_btn.onclick = () => {
         }
     }
 }
-
+// boton que permite desloguearse
 log_out_btn.onclick = () => {
     change_display();
     clear_storage();
 }
 
-game.innerHTML = `<p>Abro mis ojos, y la tenue luz del piso asalta mis ojos como si fuera el sol. Con considerable esfuerzo logro mover mi cabeza para no tener que mirar directo al suelo</p>
+// boton que borra los logros del usuario
+clear_achv.onclick = () => {
+    Swal.fire({
+        title: 'Borrar logros',
+        text: "estas apunto de borrar los logros en dollhouse, ¿estas seguro que quieres proseguir?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, borralos'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            clear_record()
+            Swal.fire(
+                'Exito',
+                'tus logros han sido borrados',
+                'success'
+            )
+        }
+    })
+}
+
+// el boton remplaza los contenidos de la tag section en el html con la naracion de la historia, agrega tambien un boton para continuar
+start.onclick = () => {
+    box.innerHTML = `<p>Abro mis ojos, y la tenue luz del piso asalta mis ojos como si fuera el sol. Con considerable esfuerzo logro mover mi cabeza para no tener que mirar directo al suelo</p>
 <p>Mi cuerpo se siente pesado y letárgico, como si hubiera dormido por meses. A pesar de esto, logro levantar mi cabeza para examinar mis alrededores</p>
 <p>Me encuentro en una especie de santuario, adentro de un círculo en una especie de pileta en medio de la habitación, la elevación del círculo hace que la profundidad del agua sea unos centímetros nomas, seria difícil ahogarme adentro del círculo incluso inconsciente</p>
 <p>"Levántate bella durmiente, hay trabajo que hacer"</p>
 <p>Un hombre se encuentra enfrente mío, alto, con pelo corto, pero bien cuidado, su lenguaje corporal demostraba confianza y elegancia, ojos azules que parecían brillar en la oscuridad de este santuario. está vestido con una túnica extraña de color blanco, con parches dos a los costados de la cadera y uno en el lado derecho del pecho, los parches no estaban cocidos en la parte superior, su túnica está abierta, pero él no parece molestarle, tiene botas chicas que se ajustan al pie de color negro y no pasan el tobillo tiene pantalones de color marrón y una camisa debajo de la túnica, es la vestimenta más extraña que he visto, pero me puedo dar cuenta que es de la más alta calidad</p>
 <p>"Empecemos con algo básico, levántate." Su voz es imponente, me encuentro intentando levantarme antes de darme cuenta</p>
-<button type="button" class="btn btn-outline-light m-3">Levantarse</button>`;
-
-get_up_btn = document.querySelector(".btn-outline-light");
-get_up_btn.onclick = () => {
-    game.innerHTML = `<p>Con mayor esfuerzo del que esperaba logro levantarme</p>
-    <p>"Bien hecho" dice mientras su atención está en escribir algo en una tabla negra que tiene en la mano</p>
-    <p>"Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día"</p>
-    <p>"Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos"</p>
-    <p>"Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos"</p>
-    <button type="button" class="btn btn-outline-light btn-sm">vos sos dios?</button>
-    <button type="button" class="btn btn-outline-light btn-sm">donde estoy?</button>
-    <button type="button" class="btn btn-outline-light btn-sm">porque yo?</button>
-    <button type="button" class="btn btn-outline-light btn-sm">que es el juego de heroes?</button>`
+<button type="button" id="get-up" class="btn btn-outline-light m-3">Levantarse</button>`;
+    // Dom del boton creado por el script 
+    get_up_btn = document.querySelector("#get-up")
+    // el boton continuara con la historia y creara la opcion de hacer 3 preguntas
+    get_up_btn.onclick = () => {
+        box.innerHTML = `<p>Con mayor esfuerzo del que esperaba logro levantarme</p>
+        <p>"Bien hecho" dice mientras su atención está en escribir algo en una tabla negra que tiene en la mano</p>
+        <p>"Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día"</p>
+        <p>"Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos"</p>
+        <p>"Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos"</p>
+        <button type="button" class="btn btn-outline-light btn-sm test">vos sos dios?</button>
+        <button type="button" class="btn btn-outline-light btn-sm test2">donde estoy?</button>
+        <button type="button" class="btn btn-outline-light btn-sm">porque yo?</button>
+        <button type="button" class="btn btn-outline-light btn-sm">que es el juego de heroes?</button>`
+    };
 };
+
+
+
+
+
 
 
 // // comienzo de la aventura
