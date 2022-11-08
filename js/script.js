@@ -1,11 +1,12 @@
-// index:
+// // index:
 // -dom
+// -Variables
 // -functions
 // -arrays
 // -eventos
 
 // mientras no haya un usuario logueado la alerta se dispara para informar que usuario puede usar para jugar
-(localStorage.getItem("user") == null) && Swal.fire({ title: 'log in', titleText: 'Dollhouse usa una base de datos falsa para operar, puedes ingresar con el siguiente usuario', html: 'Usuario: salami dave <br> Contraseña: contraseña', icon: 'info', confirmButtonText: 'Entendio' }); 
+(localStorage.getItem("user") == null) && Swal.fire({ title: 'log in', titleText: 'Dollhouse usa una base de datos falsa para operar, puedes ingresar con el siguiente usuario', html: 'Usuario: salami dave <br> Contraseña: contraseña', icon: 'info', confirmButtonText: 'Entendio' });
 
 // // dom
 const log_user = document.querySelector("#user"),
@@ -13,10 +14,15 @@ const log_user = document.querySelector("#user"),
     log_btn = document.querySelector("#btn_log"),
     log_out_btn = document.querySelector("#btn_log_out"),
     toggles = document.querySelectorAll(".toggle"),
-    box = document.querySelector("#box"),
-    start = document.querySelector("#start"),
+    box_text = document.querySelector("#box-text"),
+    box_btn = document.querySelector("#box-btn"),
+    start_btn = document.querySelector("#start"),
     clear_achv = document.querySelector("#clear-achv");
 
+// // Variables
+// este objeto representa el equipo y/o bendiciones que el usuario recibe en el juego
+let doll_status = {}
+let questions = 1
 // // functions 
 
 // esta funcion revisa la falsa base de datos para  loggearse en el sitio
@@ -72,6 +78,69 @@ function logged_user(user) {
     user && change_display();
 };
 
+// permite mostrar el boton en caso de que no requiera nada o el usuario posea algo especifico en su status
+function show_btn(button) {
+    return button.require_status == null || button.require_status(doll_status);
+};
+
+function pick_button(button) {
+    
+    // del boton elegido guardamos el id que esta en el atributo next_scene
+    const next_scene_id = button.next_scene;
+
+    // este flujo de control existe para reiniciar el juego en caso de que sea necesario
+    (next_scene_id > 0) && begin();
+
+    // si el boton tiene una funcion, la ejecuta
+    button.event && button.event();
+
+    // actualiza el estatus acorde
+    doll_status = Object.assign(doll_status, button.add_status);
+
+    // funcion para mostrar la siguenten escena
+    show_scene(next_scene_id);
+};
+
+// funcion que muestra la situacion y renderiza los botones al usuario
+function show_scene(id) {
+    // primero guarda la escena(que es un objeto) que tenga el id que este como parametro
+    const new_scene = scenes.find(object => object.id === id);
+    // cambia el html con el html de la escena
+    // si el objeto tiene .new_html se remplaza el html existente por el nuevo
+    // si el objeto tiene .html se agrega al html existente
+    if (new_scene.new_html) {
+        box_text.innerHTML = new_scene.new_html;
+    } else {
+        box_text.innerHTML += new_scene.html;
+    }
+
+    // borra todo los botones presentes
+    while (box_btn.firstChild) {
+        box_btn.removeChild(box_btn.firstChild);
+    };
+    // agrega botones nuevos por cada objeto dentro del array de botones
+    new_scene.buttons.forEach(option => {
+        if (show_btn(option)) {
+            const button = document.createElement("button");
+            button.innerText = option.text;
+            button.classList = `btn btn-outline-light btn-sm m-2`;
+            button.onclick = () => { pick_button(option) };
+            box_btn.appendChild(button);
+        };
+    });
+};
+
+
+
+// funcion para empezar el juego
+function begin() {
+    doll_status = {}
+    show_scene("1")
+}
+
+
+
+
 // funcion para simular dados, son dos dados de 6 que funcionaran para decidir el resultado del usuario
 
 const dos_d6 = () => { return Math.ceil(Math.random() * 6) + Math.ceil(Math.random() * 6) }
@@ -83,7 +152,9 @@ const dos_d6 = () => { return Math.ceil(Math.random() * 6) + Math.ceil(Math.rand
 function roll(dificultad) {
     return dos_d6() + user_doll.power - dificultad;
 };
-
+function test(string) {
+    alert("test" + string)
+}
 // classe para contruir oponentes
 class Doll {
     constructor(name, hit_points, damage, dificultad) {
@@ -121,6 +192,7 @@ class Doll {
 //         };
 //     };
 // };
+
 // // esta variable existe para poder utilizarla en la funcion de background la creo a fuera para que sea una variable global, pero sera modificada por la funcion race() ya que esa decide cuales historias son aplicables al usario dependiendo de la raza que eligio
 // let raza_elegida = 0
 
@@ -546,7 +618,6 @@ class Doll {
 // // array
 
 // falsa base de datos
-
 const fake_DB = [{
     user: "salami dave",
     password: "contraseña",
@@ -558,13 +629,276 @@ const fake_DB = [{
 }];
 
 
-
+// array de enemigos creados con la class Doll
 const dolls = [
     new Doll("araña gigante", 1, 2, 3),
     new Doll("estatua animada", 2, 2, 2),
     new Doll("muñeca samurai", 2, 3, 3),
     new Doll("simulador de santo", 3, 5, 4),
     new Doll("manada de lobos", 2, 4, 2)
+];
+// array que contiene toda la informacion de las scenas
+const scenes = [
+    {
+        // id lo uso para llamar la escena
+        id: "1",
+        // html contiene el contenido que se renderizara en la pantalla
+        new_html: `<p>Abro mis ojos, y la tenue luz del piso asalta mis ojos como si fuera el sol. Con considerable esfuerzo logro mover mi cabeza para no tener que mirar directo al suelo</p>
+        <p>Mi cuerpo se siente pesado y letárgico, como si hubiera dormido por meses. A pesar de esto, logro levantar mi cabeza para examinar mis alrededores</p>
+        <p>Me encuentro en una especie de santuario, adentro de un círculo en una especie de pileta en medio de la habitación, la elevación del círculo hace que la profundidad del agua sea unos centímetros nomas, seria difícil ahogarme adentro del círculo incluso inconsciente</p>
+        <p>"Levántate bella durmiente, hay trabajo que hacer"</p>
+        <p>Un hombre se encuentra enfrente mío, alto, con pelo corto, pero bien cuidado, su lenguaje corporal demostraba confianza y elegancia, ojos azules que parecían brillar en la oscuridad de este santuario. está vestido con una túnica extraña de color blanco, con parches dos a los costados de la cadera y uno en el lado derecho del pecho, los parches no estaban cocidos en la parte superior, su túnica está abierta, pero él no parece molestarle, tiene botas chicas que se ajustan al pie de color negro y no pasan el tobillo tiene pantalones de color marrón y una camisa debajo de la túnica, es la vestimenta más extraña que he visto, pero me puedo dar cuenta que es de la más alta calidad</p>
+        <p>"Empecemos con algo básico, levántate." Su voz es imponente, me encuentro intentando levantarme antes de darme cuenta</p>`,
+        // bottones que contienen texto la escena a la que se mueven y posiblemente alteracion al estatus del usuario en el juego
+        buttons: [
+            {
+                text: "levantarse",
+                next_scene: "2"
+            }
+        ]
+    },
+    {
+        id: "2",
+        new_html: `<p>Con mayor esfuerzo del que esperaba logro levantarme</p>
+        <p>"Bien hecho" dice mientras su atención está en escribir algo en una tabla negra que tiene en la mano</p>
+        <p>"Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día"</p>
+        <p>"Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos"</p>
+        <p>"Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos"</p>`,
+        buttons: [
+            {
+                text: "vos sos dios?",
+                // esta funcion permite que el usuario solo haga 3 preguntas al dios antes de empezar
+                event: () => {
+                    if (questions >= 3) {
+                        let test = scenes.find(escenas => escenas.id === "2a");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2a"
+            },
+            {
+                text: "¿donde estoy?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2b"
+            },
+            {
+                text: "¿porque yo?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                    console.log(questions);
+                },
+                next_scene: "2c"
+            },
+            {
+                text: "¿que es el juego de heroes?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2d"
+            }
+        ]
+    },
+    {
+        id: "2a",
+        html: `<p>Si</p>`,
+        buttons: [
+            {
+                text: "¿En serio?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2e");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2e"
+            },
+            {
+                text: "¿donde estoy?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2b"
+            },
+            {
+                text: "¿porque yo?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2c"
+            },
+            {
+                text: "¿que es el juego de heroes?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2d"
+            }
+        ]
+    },
+    {
+        id: "2b",
+        new_html: `<p>Ahora estás en la cámara del despertar</p>
+        <p>con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, lo que otros dioses llaman Dollhouse, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera</p>`,
+        buttons: [
+            {
+                text: "volver",
+                next_scene: "2"
+            }
+        ]
+    },
+    {
+        id: "2c",
+        new_html: `<p>Ah, eso es simple. porque lo digo yo</p>`,
+        buttons: [
+            {
+                text: "volver",
+                next_scene: "2"
+            }
+        ]
+    },
+    {
+        id: "2d",
+        new_html: `<p>El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses</p>
+        <p>Tu tomaras el lugar de un santo para probar los obstaculos y enemigos que diseñe</p>`,
+        buttons: [
+            {
+                text: "volver",
+                next_scene: "2"
+            }
+        ]
+    },
+    {
+        id: "2e",
+        html: `<p>Si</p>`,
+        buttons: [
+            {
+                text: "¿Usted?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2f"
+            },
+            {
+                text: "¿donde estoy?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2b"
+            },
+            {
+                text: "¿porque yo?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2c"
+            },
+            {
+                text: "¿que es el juego de heroes?",
+                event: () => {
+                    if (questions === 3) {
+                        let test = scenes.find(escenas => escenas.id === "2");
+                        test.buttons.forEach(boton => {
+                            boton.next_scene = "3";
+                        })
+                    } else {
+                        questions++;
+                    };
+                },
+                next_scene: "2d"
+            }
+        ]
+    },
+    {
+        id: "2f",
+        html: `<p>Asi es.</p>
+        <p>Bueno, es momento de empezar.</p>`,
+        buttons: [
+            {
+                text: "pero-",
+                next_scene: "3"
+            }
+        ]
+    },
+    {
+        id: "3",
+        new_html: `<p>¡Bueno, es momento de empezar!.</p>`,
+        buttons: [
+
+        ]
+    }
 ];
 
 // // events
@@ -629,124 +963,12 @@ clear_achv.onclick = () => {
     });
 };
 
-// el boton remplaza los contenidos de la tag section en el html con la naracion de la historia, agrega tambien un boton para continuar
+
 start.onclick = () => {
-    box.innerHTML = `<p>Abro mis ojos, y la tenue luz del piso asalta mis ojos como si fuera el sol. Con considerable esfuerzo logro mover mi cabeza para no tener que mirar directo al suelo</p>
-<p>Mi cuerpo se siente pesado y letárgico, como si hubiera dormido por meses. A pesar de esto, logro levantar mi cabeza para examinar mis alrededores</p>
-<p>Me encuentro en una especie de santuario, adentro de un círculo en una especie de pileta en medio de la habitación, la elevación del círculo hace que la profundidad del agua sea unos centímetros nomas, seria difícil ahogarme adentro del círculo incluso inconsciente</p>
-<p>"Levántate bella durmiente, hay trabajo que hacer"</p>
-<p>Un hombre se encuentra enfrente mío, alto, con pelo corto, pero bien cuidado, su lenguaje corporal demostraba confianza y elegancia, ojos azules que parecían brillar en la oscuridad de este santuario. está vestido con una túnica extraña de color blanco, con parches dos a los costados de la cadera y uno en el lado derecho del pecho, los parches no estaban cocidos en la parte superior, su túnica está abierta, pero él no parece molestarle, tiene botas chicas que se ajustan al pie de color negro y no pasan el tobillo tiene pantalones de color marrón y una camisa debajo de la túnica, es la vestimenta más extraña que he visto, pero me puedo dar cuenta que es de la más alta calidad</p>
-<p>"Empecemos con algo básico, levántate." Su voz es imponente, me encuentro intentando levantarme antes de darme cuenta</p>
-<button type="button" id="get-up" class="btn btn-outline-light m-3">Levantarse</button>`;
-    // Dom del boton creado por el script 
-    get_up_btn = document.querySelector("#get-up");
-    // el boton continuara con la historia y creara la opcion de hacer 3 preguntas
-    get_up_btn.onclick = () => {
-        box.innerHTML = `<p>Con mayor esfuerzo del que esperaba logro levantarme</p>
-        <p>"Bien hecho" dice mientras su atención está en escribir algo en una tabla negra que tiene en la mano</p>
-        <p>"Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día"</p>
-        <p>"Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos"</p>
-        <p>"Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos"</p>
-        <div class="d-flex justify-content-around">
-            <button type="button" class="btn btn-outline-light btn-sm m-2">vos sos dios?</button>
-            <button type="button" class="btn btn-outline-light btn-sm m-2">donde estoy?</button>
-            <button type="button" class="btn btn-outline-light btn-sm m-2">porque yo?</button>
-            <button type="button" class="btn btn-outline-light btn-sm m-2">que es el juego de heroes?</button>
-        </div>`;
-    };
-};
-
-
-
-
-
-
+    begin()
+}
 
 // // comienzo de la aventura
-
-// alert("'Okay, es hora de continuar, hay varias pruebas que vas a realizar y no tengo todo el día'");
-
-// alert("'Soy Vulion, Dios de los Constructos, estoy encargado de aportar oponentes y obstáculos para la siguiente juego de héroes que se hace cada 10 años, y tú me vas a ayudar a probarlos'");
-
-// alert("'Como dije antes no tengo todo el día, pero veo en tu cara que tienes preguntas, así que te dejaré hacer 3 preguntas antes de que continuemos'");
-// // la variable q representa las preguntas que le quedan al usuario
-// let q = 3;
-
-// // la variable input representa la eleccion de pregunta del usuario
-// let input = prompt("Presiona un número para elegir una opción \n 1-¿Tú eres el Dios de los Constructos? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Héroes? \n 4-¿Por qué yo?");
-
-// for (let i = q; i > 0; i--) {
-
-//     //  se le resta 1 a la variable q para representar que ya hizo una pregunta
-//     q -= 1;
-
-//     if (input == 1) {
-//         alert("Si")
-//         break
-//     } else if (input == 2) {
-//         alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
-//     } else if (input == 3) {
-//         alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
-//     } else if (input == 4) {
-//         alert("Ah, eso es simple, porque lo digo yo")
-//     } else {
-//         alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
-//     }
-
-//     if (i != 1) {
-//         input = prompt("Presiona un número para elegir una opción \n 1-¿Tú eres el Dios de los Constructos? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Héroes? \n 4-¿Por qué yo?");
-//     };
-// }
-
-// if (input == 1 && q > 0) {
-
-//     input = prompt("Presiona un número para elegir una opción  \n 1-¿En serio? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Heroes? \n 4-¿Por qué yo?");
-
-//     for (let i = q; i > 0; i--) {
-
-//         //  se le resta 1 a la variable q para representar que ya hizo una pregunta
-//         q -= 1;
-
-//         if (input == 1) {
-//             alert("Si")
-//             break
-//         } else if (input == 2) {
-//             alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
-//         } else if (input == 3) {
-//             alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
-//         } else if (input == 4) {
-//             alert("Ah, eso es simple, porque lo digo yo")
-//         } else {
-//             alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
-//         }
-
-//         if (i != 1) {
-//             input = prompt("Presiona un número para elegir una opción  \n 1-¿En serio? \n 2-¿Donde estoy? \n 3-¿Que es el Juego de Heroes? \n 4-¿Porque yo?");
-//         };
-//     };
-// };
-
-// if (input == 1 && q > 0) {
-
-//     input = prompt("Presiona un número para elegir una opción  \n 1-¿Usted? \n 2-¿Dónde estoy? \n 3-¿Qué es el Juego de Heroes? \n 4-¿Por qué yo?");
-
-//     for (let i = q; i > 0; i--) {
-//         //  se le resta 1 a la variable q para representar que ya hizo una pregunta
-//         q -= 1;
-
-//         if (input == 1) {
-//             alert("Asi es")
-//         } else if (input == 2) {
-//             alert("Ahora estás en la cámara del despertar, con respecto a donde estás en el mundo, estás en la Fosa, mi propio dominio, en mi propio estudio, donde puedo experimentar y ejercer mis poderes sin límites o la regulación del panteón de Oshera")
-//         } else if (input == 3) {
-//             alert("El Juego de Héroes es una especie de evento internacional multidisciplinario, donde participan campeones, caballeros y santos con el objetivo de ganar riquezas y favores con los dioses, o en caso de algunos santos para traer gloria a sus respectivos dioses")
-//         } else if (input == 4) {
-//             alert("Ah, eso es simple, porque lo digo yo")
-//         } else {
-//             alert("'Perdón, no entendí tu pregunta. Pero te la cobro igual, no tengo todo el día'")
-//         };
-//     };
-// };
 
 // if (input == 1) {
 //     input = prompt("'Okay, hora de empezar' \n 1-Pero..")
