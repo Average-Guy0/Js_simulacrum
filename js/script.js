@@ -2,13 +2,14 @@
 // -dom
 // -Variables
 // -functions
-// -arrays
 // -eventos
+// -arrays
+
 
 // mientras no haya un usuario logueado la alerta se dispara para informar que usuario puede usar para jugar
 (localStorage.getItem("user") == null) && Swal.fire({ title: 'log in', titleText: 'Dollhouse usa una base de datos falsa para operar, puedes ingresar con el siguiente usuario', html: 'Usuario: salami dave <br> Contraseña: contraseña', icon: 'info', confirmButtonText: 'Entendio' });
 
-// // dom
+// // dom ------------------------------------------------------------------------------------------------------------------------
 const log_user = document.querySelector("#user"),
     log_pass = document.querySelector("#pass"),
     log_btn = document.querySelector("#btn_log"),
@@ -22,15 +23,15 @@ const log_user = document.querySelector("#user"),
     achivement_list = document.querySelector("#achivement-list"),
     achivement_btn = document.querySelector("#achivement-btn");
 
-// // Variables
+// // Variables ------------------------------------------------------------------------------------------------------------------------
 
 // este objeto representa el equipo y/o bendiciones que el usuario recibe en el juego
-let doll_status = {}
+let doll_status = {};
 // variable que determina que tan bueno es el usuario en sus rolls
-let doll_bonus = 0
+let doll_bonus = 0;
 
 // esta variable permite hacer la funcion de 3 preguntas en la historia
-let questions = 1
+let questions = 1;
 
 // booleanos que me permiten determina el exito o fracaso de un roll
 let great_success = false,
@@ -47,7 +48,7 @@ const options = {
 };
 
 // url de la api
-let url = 'https://dice-roll.p.rapidapi.com/roll/2/d/6'
+let url = 'https://dice-roll.p.rapidapi.com/roll/2/d/6';
 
 // sacada de la libreria de sweet alert para utilizar simple toast
 const Toast = Swal.mixin({
@@ -60,22 +61,22 @@ const Toast = Swal.mixin({
         toast.addEventListener('mouseenter', Swal.stopTimer)
         toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
-})
+});
 
 
 
 
-// // functions 
+// // functions ------------------------------------------------------------------------------------------------------------------------
 
 // esta es la funcion asincronica que me permite trabajar con la api
 async function dice_roll() {
     const response = await fetch(url, options),
         dice = await response.json(),
         // el unico valor importante aqui es el total que es guardado en roll y determinara ciertos resultados
-        roll = dice.total
+        roll = dice.total;
     // a este valor lo guardo en una tag span en el html(declararla en una variable no me funciona bien) que esta escondida, cuando lo necesiste que la puedo leer y determina el resultado
     // esto implica que el usuario vera los resultados del roll anterior y no del roll actual
-    hidden_results.innerText = roll
+    hidden_results.innerText = roll;
 }
 // esta funcion me permite usar booleanos para determinar el exito o fracaso de una accion
 function results(difficulty) {
@@ -84,7 +85,7 @@ function results(difficulty) {
     success = false;
     failure = false;
 
-    let result = parseInt(hidden_results.innerText) + doll_bonus - difficulty
+    let result = parseInt(hidden_results.innerText) + doll_bonus - difficulty;
 
     // luego determinando el roll  anterior, mas el bonus menos la dificultad uno de los booleanos se hace true que lo puedo usar en futuros condicionales
 
@@ -98,7 +99,7 @@ function results(difficulty) {
     } else if (result < 7) {
         return failure = true
     };
-}
+};
 
 
 
@@ -139,15 +140,15 @@ function clear_record() {
 
 // function para agregar un achivement requiere el objeto como achivement a guardar
 function add_record(object, toast) {
-    let record = object
+    let record = object;
     let user = loot_user();
     if (!user.achivement.record) {
         Toast.fire({
             icon: 'success',
             title: 'Achivement: ' + toast
-        })
-    }
-    user.achivement = Object.assign(user.achivement, record)
+        });
+    };
+    user.achivement = Object.assign(user.achivement, record);
     localStorage.setItem("user", JSON.stringify(user));
 }
 
@@ -224,36 +225,26 @@ function show_scene(id) {
 // esta funcion permite grabar en el off canvas los logros del usuario registrado en el local storage 
 function achivements_gained() {
     // saca el usuario
-    const user = loot_user()
+    const user = loot_user();
     // borro los logros ya escritos para evitar repeticiones
     while (achivement_list.firstChild) {
-        achivement_list.removeChild(achivement_list.firstChild)
+        achivement_list.removeChild(achivement_list.firstChild);
     }
 
     // aplica la propiedad keys para sacar un array del objeto del cual aplico el forEach para crear las li
     Object.keys(user.achivement).forEach(record => {
         const list = document.createElement("li");
         list.innerText = record + user.achivement[record];
-        achivement_list.appendChild(list)
+        achivement_list.appendChild(list);
     })
 }
 
 
 // funcion para empezar el juego
 function begin() {
-    doll_status = {}
-    show_scene("1")
+    doll_status = {};
+    show_scene("1");
 }
-
-// classe para contruir oponentes
-class Doll {
-    constructor(name, hit_points, damage, dificultad) {
-        this.name = name
-        this.hp = hit_points
-        this.dmg = damage
-        this.dificultad = dificultad;
-    };
-};
 
 
 // // array
@@ -272,11 +263,10 @@ const fake_DB = [{
 
 
 
-// // events
+// // events ------------------------------------------------------------------------------------------------------------------------
 
 window.onload = () => {
     logged_user(loot_user());
-    // achivements_gained();
 };
 
 achivement_btn.onclick = () => {
@@ -348,6 +338,7 @@ start.onclick = () => {
 
 
 // array que contiene toda la informacion de las scenas
+// FLOR SI PUDIERA PONER ESTO EN JSON LO HARIA!! pero como no puedo, esta codeado todo aca
 const scenes = [
     {
         id: "End",
