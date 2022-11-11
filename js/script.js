@@ -18,7 +18,9 @@ const log_user = document.querySelector("#user"),
     box_btn = document.querySelector("#box-btn"),
     start_btn = document.querySelector("#start"),
     clear_achv = document.querySelector("#clear-achv"),
-    hidden_results = document.querySelector("#roll-results");
+    hidden_results = document.querySelector("#roll-results"),
+    achivement_list = document.querySelector("#achivement-list"),
+    achivement_btn = document.querySelector("#achivement-btn");
 
 // // Variables
 
@@ -50,9 +52,9 @@ let url = 'https://dice-roll.p.rapidapi.com/roll/2/d/6'
 // sacada de la libreria de sweet alert para utilizar simple toast
 const Toast = Swal.mixin({
     toast: true,
-    position: 'top-end',
+    position: 'top',
     showConfirmButton: false,
-    timer: 2000,
+    timer: 2500,
     timerProgressBar: true,
     didOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -219,7 +221,22 @@ function show_scene(id) {
     });
 };
 
+// esta funcion permite grabar en el off canvas los logros del usuario registrado en el local storage 
+function achivements_gained() {
+    // saca el usuario
+    const user = loot_user()
+    // borro los logros ya escritos para evitar repeticiones
+    while (achivement_list.firstChild) {
+        achivement_list.removeChild(achivement_list.firstChild)
+    }
 
+    // aplica la propiedad keys para sacar un array del objeto del cual aplico el forEach para crear las li
+    Object.keys(user.achivement).forEach(record => {
+        const list = document.createElement("li");
+        list.innerText = record + user.achivement[record];
+        achivement_list.appendChild(list)
+    })
+}
 
 
 // funcion para empezar el juego
@@ -259,8 +276,12 @@ const fake_DB = [{
 
 window.onload = () => {
     logged_user(loot_user());
+    // achivements_gained();
 };
 
+achivement_btn.onclick = () => {
+    achivements_gained();
+}
 
 // funcion que primero revisa que esten los valores necesarios para log in y luego revisa que esten correctos
 // una vez confirmado con la falsa base de datos, guarda el usuario en el storage, cambia el display y manda una alerta
@@ -308,6 +329,7 @@ clear_achv.onclick = () => {
     }).then((result) => {
         if (result.isConfirmed) {
             clear_record();
+            // achivements_gained();
             Swal.fire(
                 'Exito',
                 'tus logros han sido borrados',
@@ -315,6 +337,7 @@ clear_achv.onclick = () => {
             );
         };
     });
+
 };
 
 
@@ -373,7 +396,7 @@ const scenes = [
             {
                 text: "levantarse",
                 event: () => {
-                    add_record({ baby_steps: "baby steps" }, "baby steps")
+                    add_record({ 1: ": Baby Spets" }, "Baby steps")
                 },
                 next_scene: "2"
             }
@@ -673,7 +696,7 @@ const scenes = [
             {
                 text: "confirmar",
                 add_status: { human: true },
-                event: () => {doll_bonus += 2},
+                event: () => { doll_bonus += 2 },
                 next_scene: "5"
             }
         ]
@@ -689,7 +712,7 @@ const scenes = [
             {
                 text: "confirmar",
                 add_status: { elven: true },
-                event: () => {doll_bonus += 1},
+                event: () => { doll_bonus += 1 },
                 next_scene: "5"
             }
         ]
@@ -706,7 +729,7 @@ const scenes = [
             {
                 text: "confirmar",
                 add_status: { orc: true },
-                event: () => {doll_bonus += 3},
+                event: () => { doll_bonus += 3 },
                 next_scene: "5"
             }
         ]
@@ -723,7 +746,7 @@ const scenes = [
             {
                 text: '"Erudito"',
                 require_status: (current) => current.human && current.male,
-                
+
                 next_scene: "5b"
             },
             {
@@ -814,7 +837,7 @@ const scenes = [
             {
                 text: "confirmar",
                 add_status: { sage: true },
-                event: () => {doll_bonus += 1},
+                event: () => { doll_bonus += 1 },
                 next_scene: "6"
             }
         ]
@@ -830,7 +853,7 @@ const scenes = [
             {
                 text: "confirmar",
                 add_status: { soldier: true },
-                event: () => {doll_bonus += 2},
+                event: () => { doll_bonus += 2 },
                 next_scene: "6"
             }
         ]
@@ -846,7 +869,7 @@ const scenes = [
             {
                 text: "confirmar",
                 add_status: { duelist: true },
-                event: () => {doll_bonus += 2},
+                event: () => { doll_bonus += 2 },
                 next_scene: "6"
             }
         ]
@@ -862,7 +885,7 @@ const scenes = [
             {
                 text: "confirmar",
                 add_status: { servant: true },
-                event: () => {doll_bonus += 1},
+                event: () => { doll_bonus += 1 },
                 next_scene: "6"
             }
         ]
@@ -908,7 +931,7 @@ const scenes = [
             {
                 text: "confirmar",
                 add_status: { beserker: true },
-                event: () => {doll_bonus += 3},
+                event: () => { doll_bonus += 3 },
                 next_scene: "6"
             }
         ]
@@ -924,7 +947,7 @@ const scenes = [
             {
                 text: "confirmar",
                 add_status: { explorer: true },
-                event: () => {doll_bonus += 2},
+                event: () => { doll_bonus += 2 },
                 next_scene: "6"
             }
         ]
@@ -940,7 +963,7 @@ const scenes = [
             {
                 text: "confirmar",
                 add_status: { chaman: true },
-                event: () => {doll_bonus += 2},
+                event: () => { doll_bonus += 2 },
                 next_scene: "6"
             }
         ]
@@ -1073,7 +1096,7 @@ const scenes = [
                     }
                 },
                 next_scene: "6b"
-            },            
+            },
         ]
     },
     {
@@ -1091,8 +1114,7 @@ const scenes = [
         html: `<p>zed es mas rapido de  lo que parece, mi guardia es inutil porque no el no estaba cargando contra mi, estaba tomando carrera. de repente Zed salta para golpearme en la cara, esto me toma de sorpresa haciendo que pierda el equilibrio, pero la suerte esta de mi lado mi espada se alineo perfectamente con el cuerpo de Zed empalandolo en el pecho.</p>`,
         buttons: [
             {
-                text:"levantarse",
-                event: ()=> {add_record({First_blood: "Primera sangre"},"Primera sangre")},
+                text: "levantarse",
                 next_scene: "8"
             }
         ]
@@ -1102,7 +1124,8 @@ const scenes = [
         html: `<p>zed es mas rapido de  lo que parece, y noto que el no estaba cargando contra mi, estaba tomando carrera. de repente Zed salta para golpearme en la cara, rapidamente doy un paso a la derecha, habiendo leido sus movimientos correctamente. Zed cae de rodillas, y apobecho que me dio la espalda para apuñalarlo por la espalda</p>`,
         buttons: [
             {
-                text:"tomar aliento",
+                text: "tomar aliento",
+                event: () => { add_record({ 2: ": Primera sangre" }, " :Primera sangre") },
                 next_scene: "8"
             }
         ]
@@ -1116,8 +1139,8 @@ const scenes = [
         <p>"Bueno eso fue... infomativo" me dice mientras admiro el cielo del lugar </p>`,
         buttons: [
             {
-                text:"levantarme",
-                event: ()=> {add_record({beat_down: "Damn a newborn kick your ass"},"Damn a newborn kick your ass")},
+                text: "levantarme",
+                event: () => { add_record({ 3: ": Damn a newborn kick your ass" }, " :Damn a newborn kick your ass") },
                 next_scene: "8"
             }
         ]
@@ -1168,7 +1191,7 @@ const scenes = [
         buttons: []
     },
     {
-        id:"8",
+        id: "8",
         new_html: ``,
         buttons: []
     }

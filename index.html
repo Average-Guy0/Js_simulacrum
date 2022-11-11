@@ -24,7 +24,12 @@
     <header>
         <div class="d-none toggle">
             <span class="h1 mx-3">Dollhouse</span>
-            <button type="button" id="btn_log_out" class="btn btn-dark mx-3">Log Out</button>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-dark mx-3" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="achivement-btn">Achivements</button>
+                <button type="button" id="btn_log_out" class="btn btn-dark mx-3">Log Out</button>
+            </div>
+
         </div>
     </header>
     <nav>
@@ -62,6 +67,20 @@
                     <button type="button" id="clear-achv" class="btn btn-dark mt-3">reiniciar logros</button>
                 </div>
             </section>
+
+
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasRight"
+                aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasRightLabel">achivements:</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul id="achivement-list">
+                    </ul>
+                </div>
+            </div>
         </div>
     </main>
     <footer>
