@@ -1396,7 +1396,7 @@ const scenes = [
         ]
     },
     {
-        id: "8m",
+        id: "8f",
         new_html: `<p>"Okay antes de que te lance a las pruebas queda un último paso" con eso me dio la espalda y empezó a salir de la habitación, empece a seguirlo, cruzamos un pasillo con habitaciones parecidas a la que salimos, el aire aquí es frío y seco, hay un aroma general de madera seca, pensé que tendría más aroma a polvo con la apariencia de este lugar "así que estoy aquí para probar los obstáculos, ¿qué clase de obstáculos son?"</p>
         <p>"generalmente, serán trampas, enemigos, tal vez algún enigma o acertijo" Vulion responde mientras caminaba con un paso calculado y medido, como alguien que recorre el mismo pasillo de su casa varias veces por día, pero hay algo raro en su movimiento, la forma en que se mueve en línea directa me recuerda a alguien que mantiene control sobre su cuerpo en todo momento</p>
         <p>"Estas pruebas suenan peligrosas, ¿qué pasa si muero en ellas?" ", entonces mueres" eso me hizo detener por un momento. La forma en que me respondió me hace pensar que ha sucedido antes, y no soy la primera en hacer esto</p>
